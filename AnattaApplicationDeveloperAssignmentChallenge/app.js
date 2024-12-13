@@ -6,8 +6,6 @@ const yargs = require("yargs");
 const SHOPIFY_STORE_URL = "https://anatta-test-store.myshopify.com/admin/api/2023-07/graphql.json";
 const SHOPIFY_ACCESS_TOKEN = "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";
 
-const MAX_PRODUCTS_PER_PAGE = 20;
-const MAX_VARIANTS_PER_PRODUCT = 50;
 const RETRY_LIMIT = 3;
 const RETRY_DELAY = 2000;
 
@@ -151,7 +149,7 @@ async function fetchWithRetry(url, options, retries = RETRY_LIMIT) {
 			if (error.response?.status === 429) {
 				// Rate limit exceeded
 				consle.log("Rate limit exceeded. Retrying...");
-				await new Promise((resolve) => setTimeout(resolve, 2000));
+				await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
 				retries--;
 			} else {
 				throw error;
