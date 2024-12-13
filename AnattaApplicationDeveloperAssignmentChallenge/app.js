@@ -6,6 +6,8 @@ const yargs = require("yargs");
 const SHOPIFY_STORE_URL = "https://anatta-test-store.myshopify.com/admin/api/2023-07/graphql.json";
 const SHOPIFY_ACCESS_TOKEN = "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";
 
+const MAX_PRODUCTS_PER_PAGE = 20;
+const MAX_VARIANTS_PER_PRODUCT = 50;
 const RETRY_LIMIT = 3;
 const RETRY_DELAY = 2000;
 
@@ -42,12 +44,12 @@ function buildSearchQuery(productName) {
 async function fetchProductsByName(productName) {
 	const query = `
 		query ($query: String!, $cursor: String) {
-			products(first: 20, query: $query, after: $cursor) {
+			products(first: ${MAX_PRODUCTS_PER_PAGE}, query: $query, after: $cursor) {
 				edges {
 					cursor
 					node {
 						title
-						variants(first: 50) {
+						variants(first: ${MAX_VARIANTS_PER_PRODUCT}) {
 							edges {
 								node {
 									title
